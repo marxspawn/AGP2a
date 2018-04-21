@@ -76,8 +76,9 @@ ____________
 ## Known Bugs
 
 #### 4/21/18
-- The primaryStage  button freezes randomly, then will not remove items
-  - not sure why
+- The primaryStage removeItems button freezes randomly
+  - intermittently remove some items and not others
+    - Unsure why
 
 
 
@@ -87,7 +88,7 @@ ____________
 ## Updates
 
 ### 4/21/18
-  - Add the real-time item updates to the primaryStage ListView
+  - Added the real-time item updates to the primaryStage ListView
   - Set ID tags for application.css throughout Main.java to keep similarity throughout project
 
 
