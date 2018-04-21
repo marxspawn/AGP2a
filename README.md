@@ -77,7 +77,7 @@ ____________
 
 #### 4/21/18
 - The primaryStage removeItems button freezes randomly.
-  - Intermittently remove some items and not others.
+  - Intermittently removes some items and not others.
     - Unsure why
 - The math for current-order-view needs to be corrected.
    - Needs to display an updated subtotal, tax total, and total when adding customer itmes.
