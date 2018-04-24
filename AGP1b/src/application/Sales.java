@@ -1,23 +1,26 @@
 package application;
 
+import java.text.DecimalFormat;
+
 public class Sales implements Comparable<Object> {
 	private String timestamp;
-	private double subtotal;
-	private double tax;
-	private double total;
+	double subtotal;
+	double tax;
+	double total;
 	private String payment;
 	private int foodSold;
 	private int drinkSold;
 	private int snackSold;
+	private DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
-	public Sales (double subtotal, double tax, double total) {
+	public Sales(double subtotal, double tax, double total) {
 		setSubtotal(subtotal);
 		setTax(tax);
 		setTotal(total);
 	}
 	
-	public Sales(String timestamp, double subtotal, double tax, double total, String payment, int foodSold,
-			int drinkSold, int snackSold) {
+	public Sales(String timestamp, double subtotal, double tax, double total, 
+			String payment, int foodSold, int drinkSold, int snackSold) {
 		setTimestamp(timestamp);
 		setSubtotal(subtotal);
 		setTax(tax);
@@ -26,6 +29,12 @@ public class Sales implements Comparable<Object> {
 		setFoodSold(foodSold);
 		setDrinkSold(drinkSold);
 		setSnackSold(snackSold);
+	}
+
+	public Sales(Sales sales) {
+		setSubtotal(sales.subtotal);
+		setTax(sales.tax);
+		setTotal(sales.total);
 	}
 
 	public String getTimestamp() {
@@ -46,19 +55,20 @@ public class Sales implements Comparable<Object> {
 		if(subtotal >= 0) {
 			this.subtotal = subtotal;
 		} else {
-			this.subtotal = 0;
+			this.subtotal = 0.00;
 		}
 	}
+	
 
 	public double getTax() {
 		return tax;
 	}
 
 	public void setTax(double tax) {
-		if(tax >= 0) {
+		if(tax >= 0.001) {
 			this.tax = tax;
 		} else {
-			this.tax = 0;
+			this.tax = 0.00;
 		}
 	}
 
@@ -70,7 +80,7 @@ public class Sales implements Comparable<Object> {
 		if(total >= 0) {
 			this.total = total;
 		} else {
-			this.total = 0;
+			this.total = 0.00;
 		}
 	}
 
@@ -127,12 +137,12 @@ public class Sales implements Comparable<Object> {
 			snackSold = 0;
 		}
 	}
-
-	
 	
 	@Override
 	public String toString() {
-		return "	" + getSubtotal()  + "\n	" + getTax() + "\n	" + getTotal();
+		return "$ " + getSubtotal()  + "0\n"
+					+ "\n$ "  + decimalFormat.format(getTax()) + "\n"
+					+ "\n$ " + decimalFormat.format(getTotal());
 	}
 
 	@Override

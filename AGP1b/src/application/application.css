@@ -1,33 +1,35 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
-
 .root {
-	-fx-background-color: rgb(26,72,110);	
+	-fx-background-color: rgb(26, 72, 110);
 	-fx-font-family: "Courier New";
-	-fx-effect: innershadow(one-pass-box, black , 30, 0.1 , 5 , -5 );
+	-fx-effect: innershadow(one-pass-box, black, 30, 0.1, 5, -5);
+	-fx-padding: 20;
 }
 
 .list-view {
 	-fx-background-color: black;
 }
+
 .list-view .list-cell:even {
 	-fx-background-color: black;
 	-fx-font-size: 15;
 	-fx-text-fill: white;
 	-fx-font-weight: bolder;
 }
+
 .list-view .list-cell:odd {
 	-fx-background-color: black;
 	-fx-text-fill: white;
 	-fx-font-weight: bolder;
 	-fx-font-size: 15;
 }
+
 #order {
 	-fx-background-color: black;
 	-fx-font-size: 18;
 	-fx-background-radius: 25;
 	-fx-border-radius: 25;
 	-fx-border-color: white;
-	-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+	-fx-effect: dropshadow( three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
 }
 
 #button {
@@ -36,7 +38,7 @@
 	-fx-background-radius: 15;
 	-fx-border-color: white;
 	-fx-border-radius: 15;
-	-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.3 , 0 , 1 );
+	-fx-effect: dropshadow( three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.3, 0, 1);
 	-fx-pref-height: 75;
 	-fx-pref-width: 100;
 	-fx-text-alignment: center;
@@ -48,7 +50,7 @@
 	-fx-border-color: black;
 	-fx-border-radius: 15;
 	-fx-border-width: 2;
-	-fx-effect: innershadow(two-pass-box , black , 30, 0.1 , 5 , -5 );
+	-fx-effect: innershadow(two-pass-box, black, 30, 0.1, 5, -5);
 }
 
 #button2 {
@@ -60,16 +62,17 @@
 	-fx-min-width: 200;
 	-fx-text-alignment: center;
 }
+
 #button2:hover {
 	-fx-background-color: white;
 	-fx-text-fill: black;
 	-fx-border-color: black;
 	-fx-border-radius: 15;
-	-fx-effect: innershadow(two-pass-box , black , 30, 0.1 , 5 , -5 );
+	-fx-effect: innershadow(two-pass-box, black, 30, 0.1, 5, -5);
 }
 
 #textField {
-	-fx-background-color: rgb(237,236,177);
+	-fx-background-color: rgb(237, 236, 177);
 	-fx-text-fill: black;
 	-fx-font-size: 15;
 	-fx-font-family: "Courier New";
@@ -77,12 +80,12 @@
 	-fx-border-color: white;
 	-fx-border-radius: 15;
 	-fx-min-width: 150;
-	-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.3 , 0 , 1 );
+	-fx-effect: dropshadow( three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.3, 0, 1);
 }
 
 #textField2 {
 	-fx-text-alignment: center;
-	-fx-background-color: rgb(237,236,177);
+	-fx-background-color: rgb(237, 236, 177);
 	-fx-text-fill: black;
 	-fx-font-size: 15;
 	-fx-font-family: "Courier New";
@@ -92,8 +95,7 @@
 	-fx-border-radius: 15;
 	-fx-max-width: 500;
 	-fx-min-height: 75;
-	-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.3 , 0 , 1 );
-
+	-fx-effect: dropshadow( three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.3, 0, 1);
 }
 
 #popWindow {
@@ -101,13 +103,31 @@
 	-fx-font-family: "Courier New";
 	-fx-font-weight: bolder;
 	-fx-text-alignment: center;
+	-fx-padding: 20;
 }
 
 #text {
 	-fx-font-size: 18;
 	-fx-text-fill: white;
-	
 	-fx-font-family: "Courier New";
 	-fx-font-weight: bolder;
 	-fx-text-alignment: center;
 }
+
+#table {
+	-fx-padding: 20;
+	-fx-border-color: white;
+	-fx-border-radius: 15;
+	-fx-alignment: top-center;
+	-fx-pref-height: 800;
+}
+
+#table2 {
+	-fx-min-height: 200;
+	-fx-pref-width: 200;
+	-fx-padding: 20
+}
+
+
+
+	
