@@ -179,11 +179,11 @@ public class Main extends Application {
 	ArrayList<Double> priceList = new ArrayList<Double>();
 
 	ObservableList<Food> customerOrder = FXCollections.observableArrayList();
-	ListView<Food> productTable = new ListView<Food>(customerOrder);
+	ListView<Food> productTable = new ListView<>(customerOrder);
 
-	ArrayList<Sales> orderUpdate = new ArrayList<Sales>();
+	ArrayList<Sales> orderUpdate = new ArrayList<>();
 	ObservableList<Sales> taxOrder = FXCollections.observableArrayList(orderUpdate);
-	ListView<Sales> taxTable = new ListView<Sales>(taxOrder);
+	ListView<Sales> taxTable = new ListView<>(taxOrder);
 
 	Food burger = new Food("Burger", "0001-3241-ADF9", 1000, 5, 2, "gluten");
 	Food hotDog = new Food("Hot Dog", "0001-9841-ADG2", 500, 3, 1, "gluten");
@@ -200,20 +200,20 @@ public class Main extends Application {
 	Snack iceCream = new Snack("Ice Cream", "0003-9841-LEKF", 4, 1, false, true, false);	
 	Snack tapioca = new Snack("Tapioca", "0003-9841-KMJB", 4, 1, false, false, true);
 
-	Food brgr = new Food("Burger		", 5.00);
-	Food htDg = new Food("Hot Dog		", 3.00);
-	Food ckSm = new Food("Coke (sm)	", 2.00);
-	Food ckMd = new Food("Coke (M)	", 2.50);
-	Food ckLg = new Food("Coke (L)	", 3.00);
-	Food tSm = new Food("Tea (S)		", 2.00);
-	Food tMd = new Food("Tea (M)		", 2.50);
-	Food tLg = new Food("Tea (L)		", 3.00);
-	Food lmnS = new Food("Lemonade (S)	", 2.50);
-	Food lmnM = new Food("Lemonade (M)	", 3.00);
-	Food lmnL = new Food("Lemonade (L)	", 3.50);
-	Food bbPie = new Food("Blueberry Pie	", 4.00);
-	Food iceC = new Food("Ice Cream	", 4.00);
-	Food tapPud = new Food("Tapioca		", 4.00);
+	Food brgr = new Food("Burger\t\t\t\t", 5.00);
+	Food htDg = new Food("Hot Dog\t\t\t\t", 3.00);
+	Food ckSm = new Food("Coke (sm)\t\t\t\t", 2.00);
+	Food ckMd = new Food("Coke (M)\t\t\t\t", 2.50);
+	Food ckLg = new Food("Coke (L)\t\t\t\t", 3.00);
+	Food tSm = new Food("Tea (S)\t\t\t\t\t", 2.00);
+	Food tMd = new Food("Tea (M)\t\t\t\t\t", 2.50);
+	Food tLg = new Food("Tea (L)\t\t\t\t\t", 3.00);
+	Food lmnS = new Food("Lemonade (S)\t\t\t", 2.50);
+	Food lmnM = new Food("Lemonade (M)\t\t\t", 3.00);
+	Food lmnL = new Food("Lemonade (L)\t\t\t", 3.50);
+	Food bbPie = new Food("Blueberry Pie\t\t", 4.00);
+	Food iceC = new Food("Ice Cream\t\t\t\t", 4.00);
+	Food tapPud = new Food("Tapioca\t\t\t\t", 4.00);
 
 	Button burgerB = new Button(burger.getName());
 	Button hotDogB = new Button(hotDog.getName());
@@ -232,12 +232,13 @@ public class Main extends Application {
 	Button managerMenuB = new Button("Manager\nMenu");
 	Button submitB = new Button("Submit");
 	Button cancelB = new Button("Wipe\nMenu");
-	Button removeB = new Button("Remove\nItems");
-	Button addB = new Button("Add\nItems");
+
+	//Button addB = new Button("Add\nItems");
 
 
-	Double xx = 0.0;
-	Sales taxHolder = new Sales(xx, xx, xx);
+	
+	
+	Sales taxHolder = new Sales(0.00, 0.00, 0.00);
 	Sales twoTax = new Sales(2.00, 0.12, 2.12);
 	Sales twoFiveTax = new Sales(2.50, 0.15, 2.65);
 	Sales threeTax = new Sales(3.00, 0.18, 3.18);
@@ -286,8 +287,7 @@ public class Main extends Application {
 			managerMenuB.setId("button");
 			submitB.setId("button");
 			cancelB.setId("button");
-			removeB.setId("button");
-			addB.setId("button");
+			//addB.setId("button");
 
 			// create necessary labels and text fields
 			Label nameLabel = new Label("Enter Name:  ");
@@ -307,8 +307,7 @@ public class Main extends Application {
 			callLabel.setId("text");
 
 			// Add
-			VBox taxBoxTotal = new VBox(10, subLabel, taxLabel, totalLabel);
-			taxBoxTotal.setId("table2");
+			VBox taxBoxTotal = new VBox(2, subLabel, taxLabel, totalLabel);
 			CheckBox callAsk = new CheckBox("Yes");
 			callAsk.setId("text");
 			callAsk.setSelected(true);
@@ -323,11 +322,283 @@ public class Main extends Application {
 			VBox snacks = new VBox(10, pieBlueberryB, iceCreamB, tapiocaB);
 			HBox menuButtons = new HBox(10, submitB, managerMenuB, cancelB);
 			HBox left = new HBox(10, food, drinkSoda, drinkTea, drinkLemonade, snacks);
-			VBox center = new VBox(20, addB, removeB);
+			VBox center = new VBox(20); //, addB);
 			HBox top = new HBox(20, nameLabel, nameField, phoneLabel, phoneField, callLabel, callAsk);
 			// Add event to buttons
-			addB.setOnAction(e -> add_BTN());
-			removeB.setOnAction(e -> remove_BTN());
+			Sales newTaxes = new Sales(taxHolder.getSubtotal(), taxHolder.getTax(), taxHolder.getTotal());
+			
+
+				burgerB.setOnAction(event -> {
+					index.add(0);
+					productList.add("Burger");
+					priceList.add(burger.getCost());
+					customerOrder.add(brgr);
+					
+					Sales tempTax = new Sales((fiveTax.subtotal + newTaxes.getSubtotal()),
+							(fiveTax.tax + newTaxes.getTax()), (fiveTax.total + newTaxes.getTotal()));
+					newTaxes.setSubtotal(tempTax.getSubtotal());
+					newTaxes.setTax(tempTax.getTax());
+					newTaxes.setTotal(tempTax.getTotal());
+					taxOrder.clear();
+					taxOrder.setAll(newTaxes);
+					taxHolder.setSubtotal(newTaxes.subtotal);
+					taxHolder.setTax(newTaxes.tax);
+					taxHolder.setTotal(newTaxes.total);
+				});
+
+				hotDogB.setOnAction(event -> {
+
+					index.add(1);
+					productList.add("Hot Dog");
+					priceList.add(hotDog.getCost());
+					customerOrder.add(htDg);
+
+					Sales tempTax = new Sales((threeTax.subtotal + newTaxes.getSubtotal()),
+							(threeTax.tax + newTaxes.getTax()), (threeTax.total + newTaxes.getTotal()));
+					newTaxes.setSubtotal(tempTax.getSubtotal());
+					newTaxes.setTax(tempTax.getTax());
+					newTaxes.setTotal(tempTax.getTotal());
+					taxOrder.clear();
+					taxOrder.setAll(newTaxes);
+					taxHolder.setSubtotal(newTaxes.subtotal);
+					taxHolder.setTax(newTaxes.tax);
+					taxHolder.setTotal(newTaxes.total);
+
+				});
+
+				cokeSB.setOnAction(event -> {
+
+					index.add(2);
+					productList.add("Coke(S)");
+					priceList.add(cokeS.getCost());
+					customerOrder.add(ckSm);
+
+					Sales tempTax = new Sales((twoTax.getSubtotal() + newTaxes.getSubtotal()),
+							(twoTax.tax + newTaxes.getTax()), (twoTax.total + newTaxes.getTotal()));
+					newTaxes.setSubtotal(tempTax.getSubtotal());
+					newTaxes.setTax(tempTax.getTax());
+					newTaxes.setTotal(tempTax.getTotal());
+					taxOrder.clear();
+					taxOrder.setAll(newTaxes);
+					taxHolder.setSubtotal(newTaxes.subtotal);
+					taxHolder.setTax(newTaxes.tax);
+					taxHolder.setTotal(newTaxes.total);
+
+				});
+
+				cokeMB.setOnAction(event -> {
+
+					index.add(3);
+					productList.add("Coke(M)");
+					priceList.add(cokeM.getCost());
+					customerOrder.add(ckMd);
+
+					Sales tempTax = new Sales((twoFiveTax.getSubtotal() + newTaxes.getSubtotal()),
+							(twoFiveTax.tax + newTaxes.getTax()), (twoFiveTax.total + newTaxes.getTotal()));
+					newTaxes.setSubtotal(tempTax.getSubtotal());
+					newTaxes.setTax(tempTax.getTax());
+					newTaxes.setTotal(tempTax.getTotal());
+					taxOrder.clear();
+					taxOrder.setAll(newTaxes);
+					taxHolder.setSubtotal(newTaxes.subtotal);
+					taxHolder.setTax(newTaxes.tax);
+					taxHolder.setTotal(newTaxes.total);
+				});
+
+				cokeLB.setOnAction(event -> {
+
+					index.add(4);
+					productList.add("Coke(L)");
+					priceList.add(cokeL.getCost());
+					customerOrder.add(ckLg);
+
+					Sales tempTax = new Sales((threeTax.subtotal + newTaxes.getSubtotal()),
+							(threeTax.tax + newTaxes.getTax()), (threeTax.total + newTaxes.getTotal()));
+					newTaxes.setSubtotal(tempTax.getSubtotal());
+					newTaxes.setTax(tempTax.getTax());
+					newTaxes.setTotal(tempTax.getTotal());
+					taxOrder.clear();
+					taxOrder.setAll(newTaxes);
+					taxHolder.setSubtotal(newTaxes.subtotal);
+					taxHolder.setTax(newTaxes.tax);
+					taxHolder.setTotal(newTaxes.total);
+				});
+
+				teaSB.setOnAction(event -> {
+
+					index.add(5);
+					productList.add("Tea(S)");
+					priceList.add(teaS.getCost());
+					customerOrder.add(tSm);
+
+					Sales tempTax = new Sales((twoTax.subtotal + newTaxes.getSubtotal()),
+							(twoTax.getTax() + newTaxes.getTax()), (twoTax.getTotal() + newTaxes.getTotal()));
+					newTaxes.setSubtotal(tempTax.getSubtotal());
+					newTaxes.setTax(tempTax.getTax());
+					newTaxes.setTotal(tempTax.getTotal());;
+					taxOrder.clear();
+					taxOrder.setAll(newTaxes);
+					taxHolder.setSubtotal(newTaxes.subtotal);
+					taxHolder.setTax(newTaxes.tax);
+					taxHolder.setTotal(newTaxes.total);
+				});
+
+				teaMB.setOnAction(event -> {
+
+					index.add(6);
+					productList.add("Tea(M)");
+					priceList.add(teaM.getCost());
+					customerOrder.add(tMd);
+
+					Sales tempTax = new Sales((twoFiveTax.subtotal + newTaxes.getSubtotal()),
+							(twoFiveTax.getTax() + newTaxes.getTax()), (twoFiveTax.getTotal() + newTaxes.getTotal()));
+					newTaxes.setSubtotal(tempTax.getSubtotal());
+					newTaxes.setTax(tempTax.getTax());
+					newTaxes.setTotal(tempTax.getTotal());
+					taxOrder.clear();
+					taxOrder.setAll(newTaxes);
+					taxHolder.setSubtotal(newTaxes.subtotal);
+					taxHolder.setTax(newTaxes.tax);
+					taxHolder.setTotal(newTaxes.total);
+				});
+
+				teaLB.setOnAction(event -> {
+
+					index.add(7);
+					productList.add("Tea(L)");
+					priceList.add(teaL.getCost());
+					customerOrder.add(tLg);
+
+					Sales tempTax = new Sales((threeTax.subtotal + newTaxes.getSubtotal()),
+							(threeTax.tax + newTaxes.getTax()), (threeTax.total + newTaxes.getTotal()));
+					newTaxes.setSubtotal(tempTax.getSubtotal());
+					newTaxes.setTax(tempTax.getTax());
+					newTaxes.setTotal(tempTax.getTotal());
+					taxOrder.clear();
+					taxOrder.setAll(newTaxes);
+					taxHolder.setSubtotal(newTaxes.subtotal);
+					taxHolder.setTax(newTaxes.tax);
+					taxHolder.setTotal(newTaxes.total);
+				});
+
+				lemonadeSB.setOnAction(event -> {
+
+					index.add(8);
+					productList.add("Lemonade(S)");
+					priceList.add(lemonadeS.getCost());
+					customerOrder.add(lmnS);
+
+					Sales tempTax = new Sales((twoFiveTax.subtotal + newTaxes.getSubtotal()),
+							(twoFiveTax.getTax() + newTaxes.getTax()), (twoFiveTax.getTotal() + newTaxes.getTotal()));
+					newTaxes.setSubtotal(tempTax.getSubtotal());
+					newTaxes.setTax(tempTax.getTax());
+					newTaxes.setTotal(tempTax.getTotal());
+					taxOrder.clear();
+					taxOrder.setAll(newTaxes);
+					taxHolder.setSubtotal(newTaxes.subtotal);
+					taxHolder.setTax(newTaxes.tax);
+					taxHolder.setTotal(newTaxes.total);
+				});
+
+				lemonadeMB.setOnAction(event -> {
+
+					index.add(9);
+					productList.add("Lemonade(M)");
+					priceList.add(lemonadeM.getCost());
+					customerOrder.add(lmnM);
+
+					Sales tempTax = new Sales((threeTax.subtotal + newTaxes.getSubtotal()),
+							(threeTax.tax + newTaxes.getTax()), (threeTax.total + newTaxes.getTotal()));
+					newTaxes.setSubtotal(tempTax.getSubtotal());
+					newTaxes.setTax(tempTax.getTax());
+					newTaxes.setTotal(tempTax.getTotal());
+					taxOrder.clear();
+					taxOrder.setAll(newTaxes);
+					taxHolder.setSubtotal(newTaxes.subtotal);
+					taxHolder.setTax(newTaxes.tax);
+					taxHolder.setTotal(newTaxes.total);
+				});
+
+				lemonadeLB.setOnAction(event -> {
+
+					index.add(10);
+					productList.add("Lemonade(L)");
+					priceList.add(lemonadeL.getCost());
+					customerOrder.add(lmnL);
+
+					Sales tempTax = new Sales((threeFiveTax.subtotal + newTaxes.getSubtotal()),
+							(threeFiveTax.tax + newTaxes.getTax()), (threeFiveTax.total + newTaxes.getTotal()));
+					newTaxes.setSubtotal(tempTax.getSubtotal());
+					newTaxes.setTax(tempTax.getTax());
+					newTaxes.setTotal(tempTax.getTotal());
+					taxOrder.clear();
+					taxOrder.setAll(newTaxes);
+					taxHolder.setSubtotal(newTaxes.subtotal);
+					taxHolder.setTax(newTaxes.tax);
+					taxHolder.setTotal(newTaxes.total);
+				});
+
+				pieBlueberryB.setOnAction(event -> {
+
+					index.add(11);
+					productList.add("Blueberry Pie");
+					priceList.add(pieBlueberry.getCost());
+					customerOrder.add(bbPie);
+
+					Sales tempTax = new Sales((fourTax.subtotal + newTaxes.getSubtotal()),
+							(fourTax.tax + newTaxes.getTax()), (fourTax.total + newTaxes.getTotal()));
+					newTaxes.setSubtotal(tempTax.getSubtotal());
+					newTaxes.setTax(tempTax.getTax());
+					newTaxes.setTotal(tempTax.getTotal());
+					taxOrder.clear();
+					taxOrder.setAll(newTaxes);
+					taxHolder.setSubtotal(newTaxes.subtotal);
+					taxHolder.setTax(newTaxes.tax);
+					taxHolder.setTotal(newTaxes.total);
+				});
+
+				iceCreamB.setOnAction(event -> {
+
+					index.add(12);
+					productList.add("Ice Cream");
+					priceList.add(iceCream.getCost());
+					customerOrder.add(iceC);
+
+					Sales tempTax = new Sales((fourTax.subtotal + newTaxes.getSubtotal()),
+							(fourTax.tax + newTaxes.getTax()), (fourTax.total + newTaxes.getTotal()));
+					newTaxes.setSubtotal(tempTax.getSubtotal());
+					newTaxes.setTax(tempTax.getTax());
+					newTaxes.setTotal(tempTax.getTotal());
+					taxOrder.clear();
+					taxOrder.setAll(newTaxes);
+					taxHolder.setSubtotal(newTaxes.subtotal);
+					taxHolder.setTax(newTaxes.tax);
+					taxHolder.setTotal(newTaxes.total);
+				});
+
+				tapiocaB.setOnAction(event -> {
+
+					index.add(13);
+					productList.add("Tapioca");
+					priceList.add(tapioca.getCost());
+					customerOrder.add(tapPud);
+
+					Sales tempTax = new Sales((fourTax.subtotal + newTaxes.getSubtotal()),
+							(fourTax.tax + newTaxes.getTax()), (fourTax.total + newTaxes.getTotal()));
+					newTaxes.setSubtotal(tempTax.getSubtotal());
+					newTaxes.setTax(tempTax.getTax());
+					newTaxes.setTotal(tempTax.getTotal());
+					taxOrder.clear();
+					taxOrder.setAll(newTaxes);
+					taxHolder.setSubtotal(newTaxes.subtotal);
+					taxHolder.setTax(newTaxes.tax);
+					taxHolder.setTotal(newTaxes.total);
+
+				});
+
+			
+			
+	
 			managerMenuB.setOnAction(event -> {
 				// Add Panes
 				Button doneButton = new Button("Done");
@@ -1149,9 +1420,9 @@ public class Main extends Application {
 
 							});
 
-							taxHolder.setSubtotal(xx);
-							taxHolder.setTax(xx);
-							taxHolder.setTotal(xx);
+							newTaxes.setSubtotal(0);
+							newTaxes.setTax(0);
+							newTaxes.setTotal(0);
 							taxOrder.clear();
 							customerOrder.clear();
 							productList.clear();
@@ -1189,9 +1460,9 @@ public class Main extends Application {
 
 							});
 
-							taxHolder.setSubtotal(xx);
-							taxHolder.setTax(xx);
-							taxHolder.setTotal(xx);
+							newTaxes.setSubtotal(0);
+							newTaxes.setTax(0);
+							newTaxes.setTotal(0);
 							taxOrder.clear();
 							customerOrder.clear();
 							productList.clear();
@@ -1230,9 +1501,9 @@ public class Main extends Application {
 
 							});
 
-							taxHolder.setSubtotal(xx);
-							taxHolder.setTax(xx);
-							taxHolder.setTotal(xx);
+							newTaxes.setSubtotal(0);
+							newTaxes.setTax(0);
+							newTaxes.setTotal(0);
 							taxOrder.clear();
 							customerOrder.clear();
 							productList.clear();
@@ -1269,9 +1540,9 @@ public class Main extends Application {
 
 							});
 
-							taxHolder.setSubtotal(xx);
-							taxHolder.setTax(xx);
-							taxHolder.setTotal(xx);
+							newTaxes.setSubtotal(0);
+							newTaxes.setTax(0);
+							newTaxes.setTotal(0);
 							taxOrder.clear();
 							customerOrder.clear();
 							productList.clear();
@@ -1307,9 +1578,9 @@ public class Main extends Application {
 
 							});
 
-							taxHolder.setSubtotal(xx);
-							taxHolder.setTax(xx);
-							taxHolder.setTotal(xx);
+							newTaxes.setSubtotal(0);
+							newTaxes.setTax(0);
+							newTaxes.setTotal(0);
 							taxOrder.clear();
 							customerOrder.clear();
 							productList.clear();
@@ -1345,9 +1616,9 @@ public class Main extends Application {
 
 							});
 
-							taxHolder.setSubtotal(xx);
-							taxHolder.setTax(xx);
-							taxHolder.setTotal(xx);
+							newTaxes.setSubtotal(0);
+							newTaxes.setTax(0);
+							newTaxes.setTotal(0);
 							taxOrder.clear();
 							customerOrder.clear();
 							productList.clear();
@@ -1382,9 +1653,9 @@ public class Main extends Application {
 
 						});
 
-						taxHolder.setSubtotal(xx);
-						taxHolder.setTax(xx);
-						taxHolder.setTotal(xx);
+						newTaxes.setSubtotal(0);
+						newTaxes.setTax(0);
+						newTaxes.setTotal(0);
 						taxOrder.clear();
 						customerOrder.clear();
 						productList.clear();
@@ -1420,9 +1691,9 @@ public class Main extends Application {
 								}
 							});
 							taxOrder.clear();
-							taxHolder.setSubtotal(xx);
-							taxHolder.setTax(xx);
-							taxHolder.setTotal(xx);
+							newTaxes.setSubtotal(0);
+							newTaxes.setTax(0);
+							newTaxes.setTotal(0);
 							customerOrder.clear();
 							productList.clear();
 							priceList.clear();
@@ -1449,17 +1720,17 @@ public class Main extends Application {
 			});
 
 			cancelB.setOnAction(event -> {
+				taxOrder.clear();
+				orderUpdate.clear();
+				index.clear();
 				customerOrder.clear();
 				productList.clear();
 				priceList.clear();
 				nameField.clear();
-				phoneField.clear();
-				taxOrder.clear();
-				taxHolder.setSubtotal(xx);
-				taxHolder.setTax(xx);
-				taxHolder.setTotal(xx);
-				index.clear();
-
+				phoneField.clear();	
+				newTaxes.setSubtotal(0);
+				newTaxes.setTax(0);
+				newTaxes.setTotal(0);
 			});
 
 			productTable.setItems(customerOrder);
@@ -1478,7 +1749,6 @@ public class Main extends Application {
 			right.setPadding(new Insets(20));
 			bottom.setPadding(new Insets(20));
 			right.setPrefWidth(450);
-			right.setId("text");
 			right.setId("order");
 			right.setPadding(new Insets(20));
 			top.setAlignment(Pos.CENTER);
@@ -1488,15 +1758,13 @@ public class Main extends Application {
 			menu.setCenter(center);
 			menu.setRight(right);
 			menu.setBottom(bottom);
-			primaryStage.setFullScreen(true);
-			// primaryStage.setResizable(false);
-			Scene scene = new Scene(menu, 1400, 700);
+
+			Scene scene = new Scene(menu, 1400, 800);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			// Stage
 			primaryStage.setTitle("Point of Sale");
 			primaryStage.setScene(scene);
-			// primaryStage.setFullScreen(true);
-			// Show
+
 			primaryStage.show();
 
 		} catch (Exception e) {
@@ -1507,597 +1775,11 @@ public class Main extends Application {
 
 	}
 
-	public void add_BTN() {
 
-		Sales newTaxes = new Sales(taxHolder.getSubtotal(), taxHolder.getTax(), taxHolder.getTotal());
 
-		burgerB.setOnAction(event -> {
-
-			index.add(0);
-			productList.add("Burger");
-			priceList.add(burger.getCost());
-			customerOrder.add(brgr);
-			Sales tempTax = new Sales((fiveTax.subtotal + newTaxes.getSubtotal()),
-					(fiveTax.tax + newTaxes.getTax()), (fiveTax.total + newTaxes.getTotal()));
-			newTaxes.setSubtotal(tempTax.getSubtotal());
-			newTaxes.setTax(tempTax.getTax());
-			newTaxes.setTotal(tempTax.getTotal());
-			taxOrder.clear();
-			taxOrder.setAll(newTaxes);
-			taxHolder.setSubtotal(newTaxes.subtotal);
-			taxHolder.setTax(newTaxes.tax);
-			taxHolder.setTotal(newTaxes.total);
-		});
-
-		hotDogB.setOnAction(event -> {
-
-			index.add(1);
-			productList.add("Hot Dog");
-			priceList.add(hotDog.getCost());
-			customerOrder.add(htDg);
-
-			Sales tempTax = new Sales((threeTax.subtotal + newTaxes.getSubtotal()),
-					(threeTax.tax + newTaxes.getTax()), (threeTax.total + newTaxes.getTotal()));
-			newTaxes.setSubtotal(tempTax.getSubtotal());
-			newTaxes.setTax(tempTax.getTax());
-			newTaxes.setTotal(tempTax.getTotal());
-			taxOrder.clear();
-			taxOrder.setAll(newTaxes);
-			taxHolder.setSubtotal(newTaxes.subtotal);
-			taxHolder.setTax(newTaxes.tax);
-			taxHolder.setTotal(newTaxes.total);
-
-		});
-
-		cokeSB.setOnAction(event -> {
-
-			index.add(2);
-			productList.add("Coke(S)");
-			priceList.add(cokeS.getCost());
-			customerOrder.add(ckSm);
-
-			Sales tempTax = new Sales((twoTax.getSubtotal() + newTaxes.getSubtotal()),
-					(twoTax.tax + newTaxes.getTax()), (twoTax.total + newTaxes.getTotal()));
-			newTaxes.setSubtotal(tempTax.getSubtotal());
-			newTaxes.setTax(tempTax.getTax());
-			newTaxes.setTotal(tempTax.getTotal());
-			taxOrder.clear();
-			taxOrder.setAll(newTaxes);
-			taxHolder.setSubtotal(newTaxes.subtotal);
-			taxHolder.setTax(newTaxes.tax);
-			taxHolder.setTotal(newTaxes.total);
-
-		});
-
-		cokeMB.setOnAction(event -> {
-
-			index.add(3);
-			productList.add("Coke(M)");
-			priceList.add(cokeM.getCost());
-			customerOrder.add(ckMd);
-
-			Sales tempTax = new Sales((twoFiveTax.getSubtotal() + newTaxes.getSubtotal()),
-					(twoFiveTax.tax + newTaxes.getTax()), (twoFiveTax.total + newTaxes.getTotal()));
-			newTaxes.setSubtotal(tempTax.getSubtotal());
-			newTaxes.setTax(tempTax.getTax());
-			newTaxes.setTotal(tempTax.getTotal());
-			taxOrder.clear();
-			taxOrder.setAll(newTaxes);
-			taxHolder.setSubtotal(newTaxes.subtotal);
-			taxHolder.setTax(newTaxes.tax);
-			taxHolder.setTotal(newTaxes.total);
-		});
-
-		cokeLB.setOnAction(event -> {
-
-			index.add(4);
-			productList.add("Coke(L)");
-			priceList.add(cokeL.getCost());
-			customerOrder.add(ckLg);
-
-			Sales tempTax = new Sales((threeTax.subtotal + newTaxes.getSubtotal()),
-					(threeTax.tax + newTaxes.getTax()), (threeTax.total + newTaxes.getTotal()));
-			newTaxes.setSubtotal(tempTax.getSubtotal());
-			newTaxes.setTax(tempTax.getTax());
-			newTaxes.setTotal(tempTax.getTotal());
-			taxOrder.clear();
-			taxOrder.setAll(newTaxes);
-			taxHolder.setSubtotal(newTaxes.subtotal);
-			taxHolder.setTax(newTaxes.tax);
-			taxHolder.setTotal(newTaxes.total);
-		});
-
-		teaSB.setOnAction(event -> {
-
-			index.add(5);
-			productList.add("Tea(S)");
-			priceList.add(teaS.getCost());
-			customerOrder.add(tSm);
-
-			Sales tempTax = new Sales((twoTax.subtotal + newTaxes.getSubtotal()),
-					(twoTax.getTax() + newTaxes.getTax()), (twoTax.getTotal() + newTaxes.getTotal()));
-			newTaxes.setSubtotal(tempTax.getSubtotal());
-			newTaxes.setTax(tempTax.getTax());
-			newTaxes.setTotal(tempTax.getTotal());;
-			taxOrder.clear();
-			taxOrder.setAll(newTaxes);
-			taxHolder.setSubtotal(newTaxes.subtotal);
-			taxHolder.setTax(newTaxes.tax);
-			taxHolder.setTotal(newTaxes.total);
-		});
-
-		teaMB.setOnAction(event -> {
-
-			index.add(6);
-			productList.add("Tea(M)");
-			priceList.add(teaM.getCost());
-			customerOrder.add(tMd);
-
-			Sales tempTax = new Sales((twoFiveTax.subtotal + newTaxes.getSubtotal()),
-					(twoFiveTax.getTax() + newTaxes.getTax()), (twoFiveTax.getTotal() + newTaxes.getTotal()));
-			newTaxes.setSubtotal(tempTax.getSubtotal());
-			newTaxes.setTax(tempTax.getTax());
-			newTaxes.setTotal(tempTax.getTotal());
-			taxOrder.clear();
-			taxOrder.setAll(newTaxes);
-			taxHolder.setSubtotal(newTaxes.subtotal);
-			taxHolder.setTax(newTaxes.tax);
-			taxHolder.setTotal(newTaxes.total);
-		});
-
-		teaLB.setOnAction(event -> {
-
-			index.add(7);
-			productList.add("Tea(L)");
-			priceList.add(teaL.getCost());
-			customerOrder.add(tLg);
-
-			Sales tempTax = new Sales((threeTax.subtotal + newTaxes.getSubtotal()),
-					(threeTax.tax + newTaxes.getTax()), (threeTax.total + newTaxes.getTotal()));
-			newTaxes.setSubtotal(tempTax.getSubtotal());
-			newTaxes.setTax(tempTax.getTax());
-			newTaxes.setTotal(tempTax.getTotal());
-			taxOrder.clear();
-			taxOrder.setAll(newTaxes);
-			taxHolder.setSubtotal(newTaxes.subtotal);
-			taxHolder.setTax(newTaxes.tax);
-			taxHolder.setTotal(newTaxes.total);
-		});
-
-		lemonadeSB.setOnAction(event -> {
-
-			index.add(8);
-			productList.add("Lemonade(S)");
-			priceList.add(lemonadeS.getCost());
-			customerOrder.add(lmnS);
-
-			Sales tempTax = new Sales((twoFiveTax.subtotal + newTaxes.getSubtotal()),
-					(twoFiveTax.getTax() + newTaxes.getTax()), (twoFiveTax.getTotal() + newTaxes.getTotal()));
-			newTaxes.setSubtotal(tempTax.getSubtotal());
-			newTaxes.setTax(tempTax.getTax());
-			newTaxes.setTotal(tempTax.getTotal());
-			taxOrder.clear();
-			taxOrder.setAll(newTaxes);
-			taxHolder.setSubtotal(newTaxes.subtotal);
-			taxHolder.setTax(newTaxes.tax);
-			taxHolder.setTotal(newTaxes.total);
-		});
-
-		lemonadeMB.setOnAction(event -> {
-
-			index.add(9);
-			productList.add("Lemonade(M)");
-			priceList.add(lemonadeM.getCost());
-			customerOrder.add(lmnM);
-
-			Sales tempTax = new Sales((threeTax.subtotal + newTaxes.getSubtotal()),
-					(threeTax.tax + newTaxes.getTax()), (threeTax.total + newTaxes.getTotal()));
-			newTaxes.setSubtotal(tempTax.getSubtotal());
-			newTaxes.setTax(tempTax.getTax());
-			newTaxes.setTotal(tempTax.getTotal());
-			taxOrder.clear();
-			taxOrder.setAll(newTaxes);
-			taxHolder.setSubtotal(newTaxes.subtotal);
-			taxHolder.setTax(newTaxes.tax);
-			taxHolder.setTotal(newTaxes.total);
-		});
-
-		lemonadeLB.setOnAction(event -> {
-
-			index.add(10);
-			productList.add("Lemonade(L)");
-			priceList.add(lemonadeL.getCost());
-			customerOrder.add(lmnL);
-
-			Sales tempTax = new Sales((threeFiveTax.subtotal + newTaxes.getSubtotal()),
-					(threeFiveTax.tax + newTaxes.getTax()), (threeFiveTax.total + newTaxes.getTotal()));
-			newTaxes.setSubtotal(tempTax.getSubtotal());
-			newTaxes.setTax(tempTax.getTax());
-			newTaxes.setTotal(tempTax.getTotal());
-			taxOrder.clear();
-			taxOrder.setAll(newTaxes);
-			taxHolder.setSubtotal(newTaxes.subtotal);
-			taxHolder.setTax(newTaxes.tax);
-			taxHolder.setTotal(newTaxes.total);
-		});
-
-		pieBlueberryB.setOnAction(event -> {
-
-			index.add(11);
-			productList.add("Blueberry Pie");
-			priceList.add(pieBlueberry.getCost());
-			customerOrder.add(bbPie);
-
-			Sales tempTax = new Sales((fourTax.subtotal + newTaxes.getSubtotal()),
-					(fourTax.tax + newTaxes.getTax()), (fourTax.total + newTaxes.getTotal()));
-			newTaxes.setSubtotal(tempTax.getSubtotal());
-			newTaxes.setTax(tempTax.getTax());
-			newTaxes.setTotal(tempTax.getTotal());
-			taxOrder.clear();
-			taxOrder.setAll(newTaxes);
-			taxHolder.setSubtotal(newTaxes.subtotal);
-			taxHolder.setTax(newTaxes.tax);
-			taxHolder.setTotal(newTaxes.total);
-		});
-
-		iceCreamB.setOnAction(event -> {
-
-			index.add(12);
-			productList.add("Ice Cream");
-			priceList.add(iceCream.getCost());
-			customerOrder.add(iceC);
-
-			Sales tempTax = new Sales((fourTax.subtotal + newTaxes.getSubtotal()),
-					(fourTax.tax + newTaxes.getTax()), (fourTax.total + newTaxes.getTotal()));
-			newTaxes.setSubtotal(tempTax.getSubtotal());
-			newTaxes.setTax(tempTax.getTax());
-			newTaxes.setTotal(tempTax.getTotal());
-			taxOrder.clear();
-			taxOrder.setAll(newTaxes);
-			taxHolder.setSubtotal(newTaxes.subtotal);
-			taxHolder.setTax(newTaxes.tax);
-			taxHolder.setTotal(newTaxes.total);
-		});
-
-		tapiocaB.setOnAction(event -> {
-
-			index.add(13);
-			productList.add("Tapioca");
-			priceList.add(tapioca.getCost());
-			customerOrder.add(tapPud);
-
-			Sales tempTax = new Sales((fourTax.subtotal + newTaxes.getSubtotal()),
-					(fourTax.tax + newTaxes.getTax()), (fourTax.total + newTaxes.getTotal()));
-			newTaxes.setSubtotal(tempTax.getSubtotal());
-			newTaxes.setTax(tempTax.getTax());
-			newTaxes.setTotal(tempTax.getTotal());
-			taxOrder.clear();
-			taxOrder.setAll(newTaxes);
-			taxHolder.setSubtotal(newTaxes.subtotal);
-			taxHolder.setTax(newTaxes.tax);
-			taxHolder.setTotal(newTaxes.total);
-
-		});
-
-	}
-
-	public void remove_BTN() {
-
-		Sales newTaxes = new Sales(taxHolder.getSubtotal(), taxHolder.getTax(), taxHolder.getTotal());
-		burgerB.setOnAction(event -> { 
-
-			if (!customerOrder.contains(brgr) == true) {
-				System.out.println("	-	Menu item not present in current order");
-			} else {
-
-				Sales tempTax = new Sales((newTaxes.getSubtotal() - fiveTax.subtotal),
-						(newTaxes.getTax() - fiveTax.tax), (newTaxes.getTotal() - fiveTax.total));
-				newTaxes.setSubtotal(tempTax.getSubtotal());
-				newTaxes.setTax(tempTax.getTax());
-				newTaxes.setTotal(tempTax.getTotal());
-				taxOrder.clear();
-				taxOrder.setAll(newTaxes);
-				taxHolder.setSubtotal(newTaxes.subtotal);
-				taxHolder.setTax(newTaxes.tax);
-				taxHolder.setTotal(newTaxes.total);
-				customerOrder.remove(brgr);
-				index.remove(0);
-
-			}
-
-		});
-
-		hotDogB.setOnAction(event -> {
-
-			if (!customerOrder.contains(htDg) == true) {
-				System.out.println("	-	Menu item not present in current order");
-			} else {
-
-				Sales tempTax = new Sales((newTaxes.getSubtotal() - threeTax.subtotal),
-						(newTaxes.getTax() - threeTax.tax), (newTaxes.getTotal() - threeTax.total));
-				newTaxes.setSubtotal(tempTax.getSubtotal());
-				newTaxes.setTax(tempTax.getTax());
-				newTaxes.setTotal(tempTax.getTotal());
-				taxOrder.clear();
-				taxOrder.setAll(newTaxes);
-				taxHolder.setSubtotal(newTaxes.subtotal);
-				taxHolder.setTax(newTaxes.tax);
-				taxHolder.setTotal(newTaxes.total);
-				customerOrder.remove(htDg);
-				index.remove(1);
-
-			}
-
-		});
-
-		cokeSB.setOnAction(event -> {
-
-			if (!customerOrder.contains(ckSm) == true) {
-				System.out.println("	-	Menu item not present in current order");
-			} else {
-
-				Sales tempTax = new Sales((newTaxes.getSubtotal() - twoTax.subtotal),
-						(newTaxes.getTax() - twoTax.tax), (newTaxes.getTotal() - twoTax.total));
-				newTaxes.setSubtotal(tempTax.getSubtotal());
-				newTaxes.setTax(tempTax.getTax());
-				newTaxes.setTotal(tempTax.getTotal());
-				taxOrder.clear();
-				taxOrder.setAll(newTaxes);
-				taxHolder.setSubtotal(newTaxes.subtotal);
-				taxHolder.setTax(newTaxes.tax);
-				taxHolder.setTotal(newTaxes.total);
-				index.remove(2);
-
-			}
-
-		});
-
-		cokeMB.setOnAction(event -> {
-			if (!customerOrder.contains(ckMd) == true) {
-				System.out.println("	-	Menu item not present in current order");
-			} else {
-
-				Sales tempTax = new Sales((newTaxes.getSubtotal() - twoFiveTax.subtotal),
-						(newTaxes.getTax() - twoFiveTax.tax), (newTaxes.getTotal() - twoFiveTax.total));
-				newTaxes.setSubtotal(tempTax.getSubtotal());
-				newTaxes.setTax(tempTax.getTax());
-				newTaxes.setTotal(tempTax.getTotal());
-				taxOrder.clear();
-				taxOrder.setAll(newTaxes);
-				taxHolder.setSubtotal(newTaxes.subtotal);
-				taxHolder.setTax(newTaxes.tax);
-				taxHolder.setTotal(newTaxes.total);
-				customerOrder.remove(ckMd);
-				index.remove(3);
-
-			}
-		});
-
-		cokeLB.setOnAction(event -> {
-
-			if (!customerOrder.contains(ckLg) == true) {
-				System.out.println("	-	Menu item not present in current order");
-			} else {
-
-				Sales tempTax = new Sales((newTaxes.getSubtotal() - threeTax.subtotal),
-						(newTaxes.getTax() - threeTax.tax), (newTaxes.getTotal() - threeTax.total));
-				newTaxes.setSubtotal(tempTax.getSubtotal());
-				newTaxes.setTax(tempTax.getTax());
-				newTaxes.setTotal(tempTax.getTotal());
-				taxOrder.clear();
-				taxOrder.setAll(newTaxes);
-				taxHolder.setSubtotal(newTaxes.subtotal);
-				taxHolder.setTax(newTaxes.tax);
-				taxHolder.setTotal(newTaxes.total);
-				customerOrder.remove(ckLg);
-				index.remove(4);
-
-			}
-
-		});
-
-		teaSB.setOnAction(event -> {
-
-			if (!customerOrder.contains(tSm) == true) {
-				System.out.println("	-	Menu item not present in current order");
-			} else {
-
-				Sales tempTax = new Sales((newTaxes.getSubtotal() - twoTax.subtotal),
-						(newTaxes.getTax() - twoTax.tax), (newTaxes.getTotal() - twoTax.total));
-				newTaxes.setSubtotal(tempTax.getSubtotal());
-				newTaxes.setTax(tempTax.getTax());
-				newTaxes.setTotal(tempTax.getTotal());
-				taxOrder.clear();
-				taxOrder.setAll(newTaxes);
-				taxHolder.setSubtotal(newTaxes.subtotal);
-				taxHolder.setTax(newTaxes.tax);
-				taxHolder.setTotal(newTaxes.total);
-				customerOrder.remove(tSm);
-				index.remove(5);
-
-			}
-		});
-
-		teaMB.setOnAction(event -> {
-
-			if (!customerOrder.contains(tMd) == true) {
-				System.out.println("	-	Menu item not present in current order");
-			} else {
-
-				Sales tempTax = new Sales((newTaxes.getSubtotal() - twoFiveTax.subtotal),
-						(newTaxes.getTax() - twoFiveTax.tax), (newTaxes.getTotal() - twoFiveTax.total));
-				newTaxes.setSubtotal(tempTax.getSubtotal());
-				newTaxes.setTax(tempTax.getTax());
-				newTaxes.setTotal(tempTax.getTotal());
-				taxOrder.clear();
-				taxOrder.setAll(newTaxes);
-				taxHolder.setSubtotal(newTaxes.subtotal);
-				taxHolder.setTax(newTaxes.tax);
-				taxHolder.setTotal(newTaxes.total);
-				customerOrder.remove(tMd);
-				index.remove(6);
-
-			}
-
-		});
-
-		teaLB.setOnAction(event -> {
-
-			if (!customerOrder.contains(tLg) == true) {
-				System.out.println("	-	Menu item not present in current order");
-				
-					
-	
-			} else {
-
-				Sales tempTax = new Sales((newTaxes.getSubtotal() - threeTax.subtotal),
-						(newTaxes.getTax() - threeTax.tax), (newTaxes.getTotal() - threeTax.total));
-				newTaxes.setSubtotal(tempTax.getSubtotal());
-				newTaxes.setTax(tempTax.getTax());
-				newTaxes.setTotal(tempTax.getTotal());
-				taxOrder.clear();
-				taxOrder.setAll(newTaxes);
-				taxHolder.setSubtotal(newTaxes.subtotal);
-				taxHolder.setTax(newTaxes.tax);
-				taxHolder.setTotal(newTaxes.total);
-				customerOrder.remove(tLg);
-				index.remove(7);
-
-			}
 		
-		});
 
-		lemonadeSB.setOnAction(event -> {
-
-			if (!customerOrder.contains(lmnS) == true) {
-				System.out.println("	-	Menu item not present in current order");
-			} else {
-
-				Sales tempTax = new Sales((newTaxes.getSubtotal() - twoFiveTax.subtotal),
-						(newTaxes.getTax() - twoFiveTax.tax), (newTaxes.getTotal() - twoFiveTax.total));
-				newTaxes.setSubtotal(tempTax.getSubtotal());
-				newTaxes.setTax(tempTax.getTax());
-				newTaxes.setTotal(tempTax.getTotal());
-				taxOrder.clear();
-				taxOrder.setAll(newTaxes);
-				taxHolder.setSubtotal(newTaxes.subtotal);
-				taxHolder.setTax(newTaxes.tax);
-				taxHolder.setTotal(newTaxes.total);
-				customerOrder.remove(lmnS);
-				index.remove(8);
-			}
-
-		});
-
-		lemonadeMB.setOnAction(event -> {
-
-			if (!customerOrder.contains(lmnM) == true) {
-				System.out.println("	-	Menu item not present in current order");
-			} else {
-
-				Sales tempTax = new Sales((newTaxes.getSubtotal() - threeTax.subtotal),
-						(newTaxes.getTax() - threeTax.tax), (newTaxes.getTotal() - threeTax.total));
-				newTaxes.setSubtotal(tempTax.getSubtotal());
-				newTaxes.setTax(tempTax.getTax());
-				newTaxes.setTotal(tempTax.getTotal());
-				taxOrder.clear();
-				taxOrder.setAll(newTaxes);
-				taxHolder.setSubtotal(newTaxes.subtotal);
-				taxHolder.setTax(newTaxes.tax);
-				taxHolder.setTotal(newTaxes.total);
-				customerOrder.remove(lmnM);
-				index.remove(9);
-			}
-		});
-
-		lemonadeLB.setOnAction(event -> {
-
-			if (!customerOrder.contains(lmnL) == true) {
-				System.out.println("	-	Menu item not present in current order");
-			} else {
-
-				Sales tempTax = new Sales((newTaxes.getSubtotal() - threeFiveTax.subtotal),
-						(newTaxes.getTax() - threeFiveTax.tax), (newTaxes.getTotal() - threeFiveTax.total));
-				newTaxes.setSubtotal(tempTax.getSubtotal());
-				newTaxes.setTax(tempTax.getTax());
-				newTaxes.setTotal(tempTax.getTotal());
-				taxOrder.clear();
-				taxOrder.setAll(newTaxes);
-				taxHolder.setSubtotal(newTaxes.subtotal);
-				taxHolder.setTax(newTaxes.tax);
-				taxHolder.setTotal(newTaxes.total);
-				customerOrder.remove(lmnL);
-				index.remove(10);
-			}
-
-		});
-
-		pieBlueberryB.setOnAction(event -> {
-			if (!customerOrder.contains(bbPie) == true) {
-				System.out.println("	-	Menu item not present in current order");
-			} else {
-
-				Sales tempTax = new Sales((newTaxes.getSubtotal() - fourTax.subtotal),
-						(newTaxes.getTax() - fourTax.tax), (newTaxes.getTotal() - fourTax.total));
-				newTaxes.setSubtotal(tempTax.getSubtotal());
-				newTaxes.setTax(tempTax.getTax());
-				newTaxes.setTotal(tempTax.getTotal());
-				taxOrder.clear();
-				taxOrder.setAll(newTaxes);
-				taxHolder.setSubtotal(newTaxes.subtotal);
-				taxHolder.setTax(newTaxes.tax);
-				taxHolder.setTotal(newTaxes.total);
-				customerOrder.remove(bbPie);
-				index.remove(11);
-
-			}
-		});
-
-		iceCreamB.setOnAction(event -> {
-
-			if (!customerOrder.contains(iceC) == true) {
-				System.out.println("	-	Menu item not present in current order");
-			} else {
-
-				Sales tempTax = new Sales((newTaxes.getSubtotal() - fourTax.subtotal),
-						(newTaxes.getTax() - fourTax.tax), (newTaxes.getTotal() - fourTax.total));
-				newTaxes.setSubtotal(tempTax.getSubtotal());
-				newTaxes.setTax(tempTax.getTax());
-				newTaxes.setTotal(tempTax.getTotal());
-				taxOrder.clear();
-				taxOrder.setAll(newTaxes);
-				taxHolder.setSubtotal(newTaxes.subtotal);
-				taxHolder.setTax(newTaxes.tax);
-				taxHolder.setTotal(newTaxes.total);
-				customerOrder.remove(iceC);
-				index.remove(12);
-			}
-
-		});
-
-		tapiocaB.setOnAction(event -> {
-
-			if (!customerOrder.contains(tapPud) == true) {
-				System.out.println("	-	Menu item not present in current order");
-			} else {
-
-				Sales tempTax = new Sales((newTaxes.getSubtotal() - fourTax.subtotal),
-						(newTaxes.getTax() - fourTax.tax), (newTaxes.getTotal() - fourTax.total));
-				newTaxes.setSubtotal(tempTax.subtotal);
-				newTaxes.setTax(tempTax.tax);
-				newTaxes.setTotal(tempTax.total);
-				taxOrder.clear();
-				taxOrder.setAll(newTaxes);
-				taxHolder.setSubtotal(newTaxes.subtotal);
-				taxHolder.setTax(newTaxes.tax);
-				taxHolder.setTotal(newTaxes.total);
-				customerOrder.remove(tapPud);
-				index.remove(13);
-			}
-
-		});
-
-	}
+	
 
 	public static Sales createSale( ArrayList<Integer> index,  ArrayList<Product> products,
 			String payment) {
